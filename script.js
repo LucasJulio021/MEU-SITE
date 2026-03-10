@@ -12,8 +12,8 @@
 const configuracoesLoja = {
   nome:      "Pizzaria Mussarela",
   slogan:    "Cardápio digital",
-  whatsapp:  "5567999999999",   // ← Troque pelo número real (código do país + DDD + número)
-  endereco:  "Rua Exemplo, 123 – Centro",
+  whatsapp:  "5567991663422",   // ← Troque pelo número real (código do país + DDD + número)
+  endereco:  "Av Aldair Rosa de Oliveira, 341, Três Lagoas",
   horario:   "Todos os dias das 18h às 23h",
   instagram: "@pizzariamussarela",
   moeda:     "R$"
