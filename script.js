@@ -11,12 +11,27 @@
    ============================================ */
 const configuracoesLoja = {
   nome:      "Pizzaria Mussarela",
-  slogan:    "Cardápio digital",
-  whatsapp:  "5567991663422",   // ← Troque pelo número real (código do país + DDD + número)
-  endereco:  "Av Aldair Rosa de Oliveira, 341, Três Lagoas",
+  slogan:    "Sabor que conquista",
+  whatsapp:  "5567998220707",
+  endereco:  "Três Lagoas - MS",
   horario:   "Todos os dias das 18h às 23h",
   instagram: "@pizzariamussarela",
-  moeda:     "R$"
+  moeda:     "R$",
+  logo:      "imagens/logo.png",
+
+  cores: {
+    fundo:            "#05080b",
+    fundoSecundario:  "#0b1117",
+    card:             "#101820",
+    borda:            "#1c2833",
+    texto:            "#ffffff",
+    textoSuave:       "#c9d1d9",
+    primaria:         "#e58a2f",
+    primariaHover:    "#f19a45",
+    destaque:         "#ef4444",
+    destaqueHover:    "#dc2626",
+    sucesso:          "#22c55e"
+  }
 };
 
 /* ============================================
@@ -24,7 +39,7 @@ const configuracoesLoja = {
    ─ Adicione, remova ou renomeie categorias aqui
    ============================================ */
 const categorias = [
-  { id: "todas",        nome: "Todas",              emoji: "🍽️" },
+  { id: "todas",        nome: "Todas",               emoji: "🍽️" },
   { id: "tradicionais", nome: "Pizzas Tradicionais", emoji: "🍕" },
   { id: "especiais",    nome: "Pizzas Especiais",    emoji: "⭐" },
   { id: "bebidas",      nome: "Bebidas",             emoji: "🥤" }
@@ -277,12 +292,12 @@ const produtos = [
       { nome: "Grande (35cm)",   preco: 67.90 }
     ],
     bordas: [
-      { nome: "Sem borda",       preco: 0 },
-      { nome: "Ninho c/ Nutella",preco: 10 }
+      { nome: "Sem borda",        preco: 0 },
+      { nome: "Ninho c/ Nutella", preco: 10 }
     ],
     adicionais: [
-      { nome: "Morango extra",   preco: 5 },
-      { nome: "Leite condensado",preco: 4 },
+      { nome: "Morango extra",    preco: 5 },
+      { nome: "Leite condensado", preco: 4 },
       { nome: "Amendoim crocante",preco: 4 }
     ],
     observacaoHabilitada: true
@@ -432,6 +447,52 @@ function contarItens() {
   return estado.carrinho.reduce((acc, item) => acc + item.quantidade, 0);
 }
 
+/** Aplica cores da marca nas variáveis CSS */
+function aplicarTema() {
+  const root = document.documentElement;
+  const cores = configuracoesLoja.cores;
+
+  if (!root || !cores) return;
+
+  root.style.setProperty("--cor-fundo", cores.fundo);
+  root.style.setProperty("--cor-fundo-secundario", cores.fundoSecundario);
+  root.style.setProperty("--cor-card", cores.card);
+  root.style.setProperty("--cor-borda", cores.borda);
+  root.style.setProperty("--cor-texto", cores.texto);
+  root.style.setProperty("--cor-texto-suave", cores.textoSuave);
+  root.style.setProperty("--cor-primaria", cores.primaria);
+  root.style.setProperty("--cor-primaria-hover", cores.primariaHover);
+  root.style.setProperty("--cor-destaque", cores.destaque);
+  root.style.setProperty("--cor-destaque-hover", cores.destaqueHover);
+  root.style.setProperty("--cor-sucesso", cores.sucesso);
+}
+
+/** Tenta aplicar logo onde existir elemento compatível */
+function aplicarLogo() {
+  if (!configuracoesLoja.logo) return;
+
+  const seletores = [
+    "#logoLoja",
+    ".logo-loja",
+    ".brand__logo",
+    "[data-store-logo]"
+  ];
+
+  seletores.forEach(seletor => {
+    document.querySelectorAll(seletor).forEach(el => {
+      if (el.tagName === "IMG") {
+        el.src = configuracoesLoja.logo;
+        el.alt = `Logo ${configuracoesLoja.nome}`;
+      } else {
+        el.style.backgroundImage = `url('${configuracoesLoja.logo}')`;
+        el.style.backgroundSize = "contain";
+        el.style.backgroundRepeat = "no-repeat";
+        el.style.backgroundPosition = "center";
+      }
+    });
+  });
+}
+
 /* ============================================
    7. RENDERIZAÇÃO — CONFIGURAÇÕES DA LOJA
    ============================================ */
@@ -439,15 +500,19 @@ function renderizarConfiguracoes() {
   const c = configuracoesLoja;
   const whatsLink = `https://wa.me/${c.whatsapp}?text=${encodeURIComponent("Olá! Gostaria de fazer um pedido 🍕")}`;
 
-  DOM.headerWhatsapp.href = whatsLink;
-  DOM.bannerWhatsapp.href = whatsLink;
-  DOM.infoHorario.textContent = c.horario;
-  DOM.infoEndereco.textContent = c.endereco;
-  DOM.infoInstagram.textContent = c.instagram;
-  DOM.footerNome.textContent = c.nome;
-  DOM.footerSlogan.textContent = c.slogan;
-  DOM.footerAno.textContent = new Date().getFullYear();
+  if (DOM.headerWhatsapp) DOM.headerWhatsapp.href = whatsLink;
+  if (DOM.bannerWhatsapp) DOM.bannerWhatsapp.href = whatsLink;
+  if (DOM.infoHorario) DOM.infoHorario.textContent = c.horario;
+  if (DOM.infoEndereco) DOM.infoEndereco.textContent = c.endereco;
+  if (DOM.infoInstagram) DOM.infoInstagram.textContent = c.instagram;
+  if (DOM.footerNome) DOM.footerNome.textContent = c.nome;
+  if (DOM.footerSlogan) DOM.footerSlogan.textContent = c.slogan;
+  if (DOM.footerAno) DOM.footerAno.textContent = new Date().getFullYear();
+
   document.title = `${c.nome} — Cardápio Digital`;
+
+  aplicarTema();
+  aplicarLogo();
 }
 
 /* ============================================
@@ -479,12 +544,10 @@ function selecionarCategoria(id) {
 function produtosFiltrados() {
   let lista = [...produtos];
 
-  // Filtro por categoria
   if (estado.categoriaAtiva !== "todas") {
     lista = lista.filter(p => p.categoria === estado.categoriaAtiva);
   }
 
-  // Filtro por busca
   if (estado.termoBusca) {
     const termo = normalizar(estado.termoBusca);
     lista = lista.filter(p =>
@@ -556,8 +619,12 @@ function renderizarProdutos() {
         abrirModal(produto);
       }
     });
+
     card.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); abrirModal(produto); }
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        abrirModal(produto);
+      }
     });
 
     DOM.produtosGrid.appendChild(card);
@@ -577,10 +644,10 @@ function limparFiltros() {
    10. MODAL DE PRODUTO
    ============================================ */
 function abrirModal(produto) {
-  estado.modalProduto   = produto;
-  estado.modalQtd       = 1;
+  estado.modalProduto = produto;
+  estado.modalQtd = 1;
   estado.modalTamanhoIdx = produto.tamanhos.length === 1 ? 0 : null;
-  estado.modalBordaIdx  = null;
+  estado.modalBordaIdx = null;
   estado.modalAdicionais = [];
 
   DOM.modalImg.src = produto.imagem;
@@ -590,10 +657,8 @@ function abrirModal(produto) {
   DOM.modalObs.value = "";
   DOM.qtyValue.textContent = 1;
 
-  // Tamanhos
   renderizarOpcoesTamanho();
 
-  // Bordas
   if (produto.bordas && produto.bordas.length > 0) {
     DOM.secaoBordas.hidden = false;
     renderizarOpcoesBorda();
@@ -601,7 +666,6 @@ function abrirModal(produto) {
     DOM.secaoBordas.hidden = true;
   }
 
-  // Adicionais
   if (produto.adicionais && produto.adicionais.length > 0) {
     DOM.secaoAdicionais.hidden = false;
     renderizarOpcoesAdicionais();
@@ -609,7 +673,6 @@ function abrirModal(produto) {
     DOM.secaoAdicionais.hidden = true;
   }
 
-  // Observação
   DOM.secaoObs.hidden = !produto.observacaoHabilitada;
 
   atualizarPrecoModal();
@@ -621,7 +684,6 @@ function abrirModal(produto) {
   });
   document.body.style.overflow = "hidden";
 
-  // Meta Pixel
   if (typeof fbq !== "undefined") {
     fbq("track", "ViewContent", { content_name: produto.nome });
   }
@@ -709,6 +771,7 @@ function renderizarOpcoesAdicionais() {
 function calcularPrecoModal() {
   const p = estado.modalProduto;
   if (!p) return 0;
+
   let total = 0;
 
   if (estado.modalTamanhoIdx !== null) {
@@ -731,6 +794,7 @@ function atualizarPrecoModal() {
 
   const precisaTamanho = p && p.tamanhos.length > 1 && estado.modalTamanhoIdx === null;
   DOM.btnAdicionarCarrinho.disabled = precisaTamanho;
+
   if (precisaTamanho) {
     DOM.btnAdicionarCarrinho.textContent = "Selecione o tamanho";
   } else {
@@ -747,9 +811,9 @@ function adicionarAoCarrinho() {
   if (p.tamanhos.length > 1 && estado.modalTamanhoIdx === null) return;
 
   const tamanho = estado.modalTamanhoIdx !== null ? p.tamanhos[estado.modalTamanhoIdx] : p.tamanhos[0];
-  const borda   = estado.modalBordaIdx !== null ? p.bordas[estado.modalBordaIdx] : null;
-  const ads     = estado.modalAdicionais.map(i => p.adicionais[i]);
-  const obs     = estado.modalObs.value.trim();
+  const borda = estado.modalBordaIdx !== null ? p.bordas[estado.modalBordaIdx] : null;
+  const ads = estado.modalAdicionais.map(i => p.adicionais[i]);
+  const obs = estado.modalObs.value.trim();
 
   let precoUnit = tamanho.preco;
   if (borda) precoUnit += borda.preco;
@@ -773,7 +837,6 @@ function adicionarAoCarrinho() {
   fecharModal();
   animarBadge();
 
-  // Meta Pixel
   if (typeof fbq !== "undefined") {
     fbq("track", "AddToCart", {
       content_name: p.nome,
@@ -814,11 +877,14 @@ function adicionarProdutoSimples(produto) {
 function alterarQuantidadeItem(uid, delta) {
   const item = estado.carrinho.find(i => i.uid === uid);
   if (!item) return;
+
   item.quantidade += delta;
+
   if (item.quantidade <= 0) {
     removerItem(uid);
     return;
   }
+
   salvarCarrinho();
   renderizarCarrinho();
 }
@@ -830,21 +896,20 @@ function removerItem(uid) {
 }
 
 function renderizarCarrinho() {
-  const total   = calcularTotal();
+  const total = calcularTotal();
   const qtdItens = contarItens();
 
-  // Badge
   DOM.cartBadge.textContent = qtdItens;
   DOM.cartBadge.style.display = qtdItens > 0 ? "flex" : "none";
 
   if (estado.carrinho.length === 0) {
     DOM.cartItems.innerHTML = "";
-    DOM.cartEmpty.hidden   = false;
+    DOM.cartEmpty.hidden = false;
     DOM.cartSummary.hidden = true;
     return;
   }
 
-  DOM.cartEmpty.hidden   = true;
+  DOM.cartEmpty.hidden = true;
   DOM.cartSummary.hidden = false;
   DOM.cartTotal.textContent = formatarPreco(total);
   DOM.cartItems.innerHTML = "";
@@ -878,12 +943,12 @@ function renderizarCarrinho() {
     DOM.cartItems.appendChild(div);
   });
 
-  // Event listeners dos botões do carrinho
   DOM.cartItems.querySelectorAll(".cart-item__qty-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       alterarQuantidadeItem(btn.dataset.uid, Number(btn.dataset.delta));
     });
   });
+
   DOM.cartItems.querySelectorAll(".cart-item__remove").forEach(btn => {
     btn.addEventListener("click", () => removerItem(btn.dataset.uid));
   });
@@ -943,10 +1008,9 @@ function gerarMensagemWhatsApp() {
 function finalizarPedido() {
   if (estado.carrinho.length === 0) return;
 
-  const msg  = gerarMensagemWhatsApp();
+  const msg = gerarMensagemWhatsApp();
   const link = `https://wa.me/${configuracoesLoja.whatsapp}?text=${encodeURIComponent(msg)}`;
 
-  // Meta Pixel
   if (typeof fbq !== "undefined") {
     fbq("track", "InitiateCheckout", {
       value: calcularTotal(),
@@ -960,7 +1024,6 @@ function finalizarPedido() {
 
 /* ============================================
    13. META PIXEL — EVENTOS AUTOMÁTICOS
-   (PageView é disparado no carregamento)
    ============================================ */
 function disparaPageView() {
   if (typeof fbq !== "undefined") {
@@ -972,21 +1035,13 @@ function disparaPageView() {
    14. INICIALIZAÇÃO
    ============================================ */
 function inicializar() {
-  // Configurações visuais
   renderizarConfiguracoes();
-
-  // Carregar carrinho salvo
   carregarCarrinho();
-
-  // Renderizar tela inicial
   renderizarCategorias();
   renderizarProdutos();
   renderizarCarrinho();
-
-  // PageView (Meta Pixel)
   disparaPageView();
 
-  // --- BUSCA ---
   DOM.searchInput.addEventListener("input", () => {
     estado.termoBusca = DOM.searchInput.value.trim();
     if (estado.termoBusca) {
@@ -1005,11 +1060,11 @@ function inicializar() {
     renderizarProdutos();
   });
 
-  // --- MODAL ---
   DOM.modalClose.addEventListener("click", fecharModal);
   DOM.modalOverlay.addEventListener("click", (e) => {
     if (e.target === DOM.modalOverlay) fecharModal();
   });
+
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       if (!DOM.modalOverlay.hidden) fecharModal();
@@ -1017,7 +1072,6 @@ function inicializar() {
     }
   });
 
-  // Controle de quantidade no modal
   DOM.qtyMinus.addEventListener("click", () => {
     if (estado.modalQtd > 1) {
       estado.modalQtd--;
@@ -1025,6 +1079,7 @@ function inicializar() {
       atualizarPrecoModal();
     }
   });
+
   DOM.qtyPlus.addEventListener("click", () => {
     estado.modalQtd++;
     DOM.qtyValue.textContent = estado.modalQtd;
@@ -1033,15 +1088,14 @@ function inicializar() {
 
   DOM.btnAdicionarCarrinho.addEventListener("click", adicionarAoCarrinho);
 
-  // --- CARRINHO ---
   DOM.cartToggle.addEventListener("click", () => {
     estado.cartAberto ? fecharCarrinho() : abrirCarrinho();
   });
+
   DOM.cartClose.addEventListener("click", fecharCarrinho);
   DOM.cartOverlay.addEventListener("click", fecharCarrinho);
   DOM.btnCheckout.addEventListener("click", finalizarPedido);
 
-  // --- SCROLL HEADER ---
   const header = document.getElementById("header");
   window.addEventListener("scroll", () => {
     if (window.scrollY > 10) {
@@ -1052,7 +1106,6 @@ function inicializar() {
   }, { passive: true });
 }
 
-// Iniciar quando o DOM estiver pronto
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", inicializar);
 } else {
