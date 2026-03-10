@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Cardápio digital da Pizzaria Mussarela - As melhores pizzas em um só lugar" />
+  <title>Pizzaria Mussarela — Cardápio Digital</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ===== META PIXEL — Cole seu código aqui ===== -->
+  <!-- 
+  <script>
+    !function(f,b,e,v,n,t,s){...}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'SEU_PIXEL_ID');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=SEU_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+  -->
+  <!-- ===== FIM META PIXEL ===== -->
+</head>
+<body>
+
+  <!-- ==============================
+       OVERLAY DO CARRINHO (mobile)
+  ================================= -->
+  <div id="cartOverlay" class="cart-overlay" aria-hidden="true"></div>
+
+  <!-- ==============================
+       HEADER FIXO
+  ================================= -->
+  <header class="header" id="header">
+    <div class="header__inner">
+
+      <div class="header__brand">
+        <div class="header__logo" aria-label="Logo Pizzaria Mussarela">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="20" cy="20" r="18" fill="#C0392B" stroke="#922B21" stroke-width="1.5"/>
+            <circle cx="20" cy="20" r="12" fill="#E67E22" opacity="0.9"/>
+            <circle cx="20" cy="20" r="6" fill="#F39C12"/>
+            <circle cx="14" cy="14" r="2.5" fill="#C0392B" opacity="0.8"/>
+            <circle cx="26" cy="16" r="2" fill="#C0392B" opacity="0.8"/>
+            <circle cx="16" cy="26" r="2" fill="#C0392B" opacity="0.8"/>
+            <circle cx="25" cy="25" r="2.5" fill="#C0392B" opacity="0.8"/>
+          </svg>
+        </div>
+        <div class="header__name">
+          <span class="header__title">Pizzaria</span>
+          <span class="header__subtitle">Mussarela</span>
+        </div>
+      </div>
+
+      <div class="header__search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Buscar produto..."
+          autocomplete="off"
+          aria-label="Buscar produto"
+        />
+      </div>
+
+      <div class="header__actions">
+        <a id="headerWhatsapp" href="#" target="_blank" rel="noopener" class="btn-whatsapp" aria-label="Abrir WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+          </svg>
+          <span>Pedir</span>
+        </a>
+
+        <button class="btn-cart" id="cartToggle" aria-label="Abrir carrinho">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span class="cart-badge" id="cartBadge" aria-live="polite">0</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==============================
+       BANNER PRINCIPAL
+  ================================= -->
+  <section class="banner" id="banner" aria-label="Banner principal">
+    <div class="banner__bg" aria-hidden="true">
+      <div class="banner__circle banner__circle--1"></div>
+      <div class="banner__circle banner__circle--2"></div>
+      <div class="banner__circle banner__circle--3"></div>
+    </div>
+    <div class="banner__content">
+      <div class="banner__text">
+        <p class="banner__eyebrow">🍕 Feitas com amor desde 2010</p>
+        <h1 class="banner__title">As melhores<br/><em>pizzas</em> em<br/>um só lugar</h1>
+        <p class="banner__desc">Massa artesanal, ingredientes frescos<br/>e muito sabor na sua porta</p>
+        <div class="banner__cta">
+          <button class="btn-primary" onclick="document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">
+            Ver cardápio
+          </button>
+          <a class="btn-secondary" id="bannerWhatsapp" href="#" target="_blank" rel="noopener">
+            Fazer pedido
+          </a>
+        </div>
+      </div>
+      <div class="banner__pizza" aria-hidden="true">
+        <div class="pizza-graphic">
+          <div class="pizza-graphic__base"></div>
+          <div class="pizza-graphic__slice pizza-graphic__slice--1"></div>
+          <div class="pizza-graphic__slice pizza-graphic__slice--2"></div>
+          <div class="pizza-graphic__topping pizza-graphic__topping--1"></div>
+          <div class="pizza-graphic__topping pizza-graphic__topping--2"></div>
+          <div class="pizza-graphic__topping pizza-graphic__topping--3"></div>
+          <div class="pizza-graphic__topping pizza-graphic__topping--4"></div>
+          <div class="pizza-graphic__topping pizza-graphic__topping--5"></div>
+          <div class="pizza-graphic__topping pizza-graphic__topping--6"></div>
+          <div class="pizza-graphic__glow"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       BARRA DE INFORMAÇÕES
+  ================================= -->
+  <div class="info-bar">
+    <div class="info-bar__inner">
+      <div class="info-bar__item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span id="infoHorario"></span>
+      </div>
+      <div class="info-bar__sep" aria-hidden="true"></div>
+      <div class="info-bar__item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        <span id="infoEndereco"></span>
+      </div>
+      <div class="info-bar__sep" aria-hidden="true"></div>
+      <div class="info-bar__item">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+        </svg>
+        <span id="infoInstagram"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================
+       ÁREA PRINCIPAL
+  ================================= -->
+  <main class="main" id="produtos">
+
+    <!-- CATEGORIAS -->
+    <section class="categories-section" aria-label="Categorias">
+      <div class="categories-wrapper">
+        <div class="categories" id="categoriasList" role="tablist" aria-label="Filtrar por categoria"></div>
+      </div>
+    </section>
+
+    <!-- BUSCA ATIVA -->
+    <div class="search-active" id="searchActive" hidden>
+      <p>Resultados para: <strong id="searchTerm"></strong></p>
+      <button id="clearSearch" aria-label="Limpar busca">✕ Limpar</button>
+    </div>
+
+    <!-- PRODUTOS -->
+    <section class="products-section" aria-label="Produtos">
+      <div class="products-grid" id="produtosGrid"></div>
+      <div class="products-empty" id="produtosVazio" hidden>
+        <div class="products-empty__icon" aria-hidden="true">🍕</div>
+        <p>Nenhum produto encontrado.</p>
+        <button onclick="limparFiltros()">Ver todos os produtos</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==============================
+       FOOTER
+  ================================= -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <div class="header__logo" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="18" fill="#C0392B" stroke="#922B21" stroke-width="1.5"/>
+            <circle cx="20" cy="20" r="12" fill="#E67E22" opacity="0.9"/>
+            <circle cx="20" cy="20" r="6" fill="#F39C12"/>
+            <circle cx="14" cy="14" r="2.5" fill="#C0392B" opacity="0.8"/>
+            <circle cx="26" cy="16" r="2" fill="#C0392B" opacity="0.8"/>
+            <circle cx="16" cy="26" r="2" fill="#C0392B" opacity="0.8"/>
+            <circle cx="25" cy="25" r="2.5" fill="#C0392B" opacity="0.8"/>
+          </svg>
+        </div>
+        <div>
+          <p id="footerNome" class="footer__title"></p>
+          <p id="footerSlogan" class="footer__slogan"></p>
+        </div>
+      </div>
+      <p class="footer__copy">© <span id="footerAno"></span> — Cardápio digital</p>
+    </div>
+  </footer>
+
+  <!-- ==============================
+       MODAL DE PRODUTO
+  ================================= -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalNome" hidden>
+    <div class="modal" id="modal">
+      <button class="modal__close" id="modalClose" aria-label="Fechar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="modal__img-wrap">
+        <img id="modalImg" src="" alt="" loading="lazy" />
+      </div>
+
+      <div class="modal__body">
+        <h2 class="modal__nome" id="modalNome"></h2>
+        <p class="modal__desc" id="modalDesc"></p>
+
+        <!-- TAMANHOS -->
+        <div class="modal__section" id="secaoTamanhos">
+          <p class="modal__label">Escolha o tamanho <span class="label-obrigatorio">Obrigatório</span></p>
+          <div class="modal__opcoes" id="opcoesTamanhos" role="group" aria-label="Tamanhos"></div>
+        </div>
+
+        <!-- BORDAS -->
+        <div class="modal__section" id="secaoBordas">
+          <p class="modal__label">Borda recheada <span class="label-opcional">Opcional</span></p>
+          <div class="modal__opcoes" id="opcoesBordas" role="group" aria-label="Bordas"></div>
+        </div>
+
+        <!-- ADICIONAIS -->
+        <div class="modal__section" id="secaoAdicionais">
+          <p class="modal__label">Adicionais <span class="label-opcional">Opcional</span></p>
+          <div class="modal__opcoes modal__opcoes--check" id="opcoesAdicionais" role="group" aria-label="Adicionais"></div>
+        </div>
+
+        <!-- OBSERVAÇÃO -->
+        <div class="modal__section" id="secaoObs">
+          <p class="modal__label">Alguma observação?</p>
+          <textarea
+            id="modalObs"
+            placeholder="Ex: sem cebola, ponto da massa..."
+            maxlength="300"
+            rows="3"
+            aria-label="Observações do pedido"
+          ></textarea>
+        </div>
+
+        <!-- QUANTIDADE + BOTÃO -->
+        <div class="modal__footer">
+          <div class="qty-control">
+            <button class="qty-btn" id="qtyMinus" aria-label="Diminuir quantidade">−</button>
+            <span class="qty-value" id="qtyValue">1</span>
+            <button class="qty-btn" id="qtyPlus" aria-label="Aumentar quantidade">+</button>
+          </div>
+          <button class="btn-add-cart" id="btnAdicionarCarrinho">
+            Adicionar • <span id="modalPrecoTotal">R$ 0,00</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================
+       CARRINHO
+  ================================= -->
+  <aside class="cart" id="cart" aria-label="Carrinho de pedidos" aria-hidden="true">
+    <div class="cart__header">
+      <h2 class="cart__title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        Meu Pedido
+      </h2>
+      <button class="cart__close" id="cartClose" aria-label="Fechar carrinho">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="cart__items" id="cartItems"></div>
+
+    <div class="cart__empty" id="cartEmpty">
+      <div class="cart__empty-icon" aria-hidden="true">🛒</div>
+      <p>Seu carrinho está vazio</p>
+      <span>Adicione itens para montar seu pedido</span>
+    </div>
+
+    <div class="cart__summary" id="cartSummary" hidden>
+      <div class="cart__total-row">
+        <span>Total do pedido</span>
+        <strong id="cartTotal">R$ 0,00</strong>
+      </div>
+      <button class="btn-checkout" id="btnCheckout">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+        </svg>
+        Finalizar pelo WhatsApp
+      </button>
+    </div>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
